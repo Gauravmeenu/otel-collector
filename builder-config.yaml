@@ -1,0 +1,19 @@
+dist:
+  name: dev-otelcol # the binary name. Optional.
+  output_path: ./dev-otelcol # the path to write the output (sources and binary). Optional..
+   
+
+exporters:
+  - gomod:
+      "github.com/open-telemetry/opentelemetry-collector-contrib/exporter/jaegerexporter
+      v0.64.0"
+  - import: go.opentelemetry.io/collector/exporter/loggingexporter
+    gomod: go.opentelemetry.io/collector v0.64.0
+
+receivers:
+  - import: go.opentelemetry.io/collector/receiver/otlpreceiver
+    gomod: go.opentelemetry.io/collector v0.64.0
+
+processors:
+  - import: go.opentelemetry.io/collector/processor/batchprocessor
+    gomod: go.opentelemetry.io/collector v0.64.0
