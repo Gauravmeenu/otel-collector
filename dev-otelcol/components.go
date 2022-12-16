@@ -11,6 +11,7 @@ import (
 	loggingexporter "go.opentelemetry.io/collector/exporter/loggingexporter"
 	batchprocessor "go.opentelemetry.io/collector/processor/batchprocessor"
 	otlpreceiver "go.opentelemetry.io/collector/receiver/otlpreceiver"
+	tailtracer "github.com/Gauravmeenu/otel-collector/tailtracer"
 )
 
 func components() (component.Factories, error) {
@@ -25,6 +26,7 @@ func components() (component.Factories, error) {
 
 	factories.Receivers, err = receiver.MakeFactoryMap(
 		otlpreceiver.NewFactory(),
+		tailtracer.NewFactory(),
 	)
 	if err != nil {
 		return component.Factories{}, err

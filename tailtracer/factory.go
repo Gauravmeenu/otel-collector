@@ -49,30 +49,34 @@ package tailtracer
 
 import (
 	"context"
+    "strconv"
 
 	"go.opentelemetry.io/collector/component"
 	"go.opentelemetry.io/collector/config"
 	"go.opentelemetry.io/collector/consumer"
+	"go.opentelemetry.io/collector/receiver"
 )
 
 const (
 	typeStr = "tailtracer"
+	defaultInterval = 1
 )
 
 func createDefaultConfig() component.Config {
 	return &Config{
-		ReceiverSettings:   config.NewReceiverSettings(component.NewID(typeStr)),
+		ReceiverSettings:   config.NewReceiverSettings(component.NewID(typeStr)),	
+		Interval:           strconv.Itoa(defaultInterval),
 	}
 }
 
-func createTracesReceiver(_ context.Context, params component.ReceiverCreateSettings, rConf component.Config, consumer consumer.Traces) (component.TracesReceiver, error) {
+func createTracesReceiver(_ context.Context, params receiver.CreateSettings , cfg component.Config, nextConsumer consumer.Traces) (receiver.Traces, error) {
   return nil,nil
 }
 
 // NewFactory creates a factory for tailtracer receiver.
-func NewFactory() component.ReceiverFactory {
-	return component.NewReceiverFactory(
+func NewFactory() receiver.Factory {
+	return receiver.NewFactory(
 		typeStr,
 		createDefaultConfig,
-		component.WithTracesReceiver(createTracesReceiver))
+		receiver.WithTraces(createTracesReceiver, component.StabilityLevelStable))
 }
